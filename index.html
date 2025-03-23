@@ -1,0 +1,59 @@
+<html>
+<head>
+    <title>ADP JSON tool</title>
+    <style>
+        #jsonreceived { background-color: #ddddff; border: solid 1px black; }
+        #jsonpayload, #urifield { width: 100%; }
+    </style>
+    <script>
+        function init() {
+            document.getElementById("sendbutton").addEventListener("click", function() { send(); });
+        }
+
+        function send() {
+            const method = document.getElementById("methodselector").value;
+            let uri = document.getElementById("urifield").value || location.protocol + "//" + location.hostname + ":" + location.port;
+            let bodyText = document.getElementById("jsonpayload").value.trim() || "{}";
+
+            try {
+                const bodyData = JSON.parse(bodyText);
+                sendRequest(method, uri, bodyData, responseHandler);
+            } catch(error) {
+                alert(error);
+            }
+        }
+
+        async function sendRequest(method, uri, data = {}, handler = handleResponse) {
+            const settings = { method: method, headers: { 'content-type': 'application/json' } };
+            if (method !== "GET") settings.body = JSON.stringify(data);
+
+            try {
+                const response = await fetch(uri, settings);
+                const content = await response.json();
+                response.ok ? handler(response, content) : alert('Error! Status = ' + response.status);
+            } catch (error) {
+                alert('Error: ' + error);
+            }
+        }
+
+        function responseHandler(response, content) {
+            document.getElementById('jsonreceived').innerHTML = '<pre>' + JSON.stringify(content, null, 4) + '</pre>';
+        }
+
+        window.onload = init;
+    </script>
+</head>
+<body>
+<h3>HTTP method:</h3>
+<select id='methodselector'>
+    <option>GET</option> <option>POST</option> <option>PUT</option> <option>DELETE</option>
+</select>
+<h3>URI</h3>
+<input type='url' id='urifield'>
+<h3>JSON request body</h3>
+<textarea id='jsonpayload'></textarea>
+<button id='sendbutton'>Send</button>
+<h3>Response</h3>
+<div id='jsonreceived'>Response displayed here</div>
+</body>
+</html>
