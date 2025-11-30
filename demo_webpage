@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Digital Sanctuary – Client UI Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    body {
+      background: #0f172a;
+      color: #0f172a;
+      padding: 32px 16px;
+    }
+    h1 {
+      color: #e5e7eb;
+      text-align: center;
+      margin-bottom: 8px;
+      font-size: 26px;
+    }
+    p.subtitle {
+      text-align: center;
+      color: #9ca3af;
+      margin-bottom: 28px;
+      font-size: 14px;
+    }
+    .option-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      max-width: 1200px;
+      margin: 0 auto 32px;
+    }
+    .option-card {
+      background: #f9fafb;
+      border-radius: 18px;
+      padding: 18px 18px 20px;
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.4);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+    }
+    .option-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 12px;
+    }
+    .option-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #111827;
+    }
+    .option-tag {
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      color: #374151;
+    }
+    .label {
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: .16em;
+      color: #6b7280;
+    }
+    .preview-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .mini-page {
+      border-radius: 14px;
+      padding: 10px;
+      background: white;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(209, 213, 219, 0.8);
+    }
+    .mini-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+    .mini-icon {
+      width: 26px; height: 26px;
+      border-radius: 999px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+      background: rgba(255,255,255,0.9);
+    }
+    .mini-title {
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .pill {
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.08);
+      color: #4b5563;
+      margin-left: auto;
+    }
+    .hero-text {
+      font-size: 12px;
+      font-weight: 600;
+      margin: 6px 0 4px;
+    }
+    .hero-sub {
+      font-size: 10px;
+      color: #6b7280;
+      margin-bottom: 6px;
+    }
+    .bar {
+      height: 6px;
+      border-radius: 999px;
+      margin-bottom: 4px;
+    }
+    .btn {
+      margin-top: 6px;
+      padding: 5px 0;
+      border-radius: 999px;
+      font-size: 10px;
+      text-align: center;
+      color: white;
+      font-weight: 600;
+    }
+    .question-line {
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(249, 250, 251, 0.9);
+      margin-bottom: 4px;
+    }
+    .radio {
+      width: 7px; height: 7px;
+      border-radius: 999px;
+      border: 1px solid rgba(15, 23, 42, 0.4);
+      display: inline-block;
+      margin-right: 4px;
+    }
+    .choice-text {
+      font-size: 9px;
+      color: #111827;
+    }
+    .chart {
+      margin-top: 4px;
+      border-radius: 10px;
+      padding: 6px 6px 8px;
+      background: rgba(15,23,42,0.92);
+      color: #e5e7eb;
+      font-size: 9px;
+    }
+    .chart-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+      margin-top: 4px;
+    }
+    .chart-bar {
+      width: 6px;
+      border-radius: 999px 999px 0 0;
+    }
+    .list {
+      margin-top: 4px;
+      font-size: 9px;
+      color: #e5e7eb;
+    }
+    .list li { margin-left: 10px; margin-bottom: 2px; }
+
+    /* Option themes */
+    .opt1 .mini-page.landing {
+      background: linear-gradient(180deg, #dbeafe, #eff6ff);
+    }
+    .opt1 .mini-page.question {
+      background: linear-gradient(180deg, #e0f2fe, #f9fafb);
+    }
+    .opt1 .mini-page.report {
+      background: linear-gradient(180deg, #1e40af, #020617);
+      color: #e5e7eb;
+    }
+    .opt1 .mini-icon { background:#eff6ff; color:#1d4ed8; }
+    .opt1 .btn { background: linear-gradient(90deg,#2563eb,#1d4ed8); }
+    .opt1 .bar { background: #60a5fa; }
+    .opt1 .chart-bar:nth-child(1){height:12px;background:#60a5fa;}
+    .opt1 .chart-bar:nth-child(2){height:20px;background:#93c5fd;}
+    .opt1 .chart-bar:nth-child(3){height:8px;background:#3b82f6;}
+    .opt1 .chart-bar:nth-child(4){height:18px;background:#bfdbfe;}
+
+    .opt2 .mini-page.landing {
+      background: linear-gradient(180deg, #dcfce7, #f0fdf4);
+    }
+    .opt2 .mini-page.question {
+      background: linear-gradient(180deg, #bbf7d0, #f9fafb);
+    }
+    .opt2 .mini-page.report {
+      background: linear-gradient(180deg, #14532d, #020617);
+      color: #e5e7eb;
+    }
+    .opt2 .mini-icon { background:#dcfce7; color:#166534; }
+    .opt2 .btn { background: linear-gradient(90deg,#22c55e,#16a34a); }
+    .opt2 .bar { background: #34d399; }
+    .opt2 .chart-bar:nth-child(1){height:10px;background:#4ade80;}
+    .opt2 .chart-bar:nth-child(2){height:18px;background:#86efac;}
+    .opt2 .chart-bar:nth-child(3){height:7px;background:#22c55e;}
+    .opt2 .chart-bar:nth-child(4){height:16px;background:#bbf7d0;}
+
+    .opt3 .mini-page.landing {
+      background: linear-gradient(180deg, #ede9fe, #eef2ff);
+    }
+    .opt3 .mini-page.question {
+      background: linear-gradient(180deg, #ddd6fe, #f9fafb);
+    }
+    .opt3 .mini-page.report {
+      background: linear-gradient(180deg, #4c1d95, #020617);
+      color: #e5e7eb;
+    }
+    .opt3 .mini-icon { background:#ede9fe; color:#7c3aed; }
+    .opt3 .btn { background: linear-gradient(90deg,#a855f7,#7c3aed); }
+    .opt3 .bar { background: #a855f7; }
+    .opt3 .chart-bar:nth-child(1){height:11px;background:#c4b5fd;}
+    .opt3 .chart-bar:nth-child(2){height:19px;background:#a855f7;}
+    .opt3 .chart-bar:nth-child(3){height:9px;background:#7c3aed;}
+    .opt3 .chart-bar:nth-child(4){height:15px;background:#ddd6fe;}
+  </style>
+</head>
+<body>
+  <h1>Digital Sanctuary – Page Design Options</h1>
+  <p class="subtitle">
+    Demo only. Each option shows the three key pages: Landing, Questionnaire, and Report. 
+    The chosen style can then be implemented in the real React frontend.
+  </p>
+
+  <div class="option-grid">
+
+    <!-- OPTION 1 -->
+    <section class="option-card opt1">
+      <div class="option-header">
+        <div>
+          <div class="label">Option 1</div>
+          <div class="option-title">Blue Compliance</div>
+        </div>
+        <span class="option-tag">Corporate &amp; calm</span>
+      </div>
+      <div class="preview-row">
+        <!-- Landing -->
+        <div class="mini-page landing">
+          <div class="mini-header">
+            <div class="mini-icon">🛡️</div>
+            <div class="mini-title">Landing</div>
+            <span class="pill">Hero</span>
+          </div>
+          <div class="hero-text">Digital Sanctuary</div>
+          <div class="hero-sub">Quick GDPR &amp; PECR check for churches</div>
+          <div class="bar"></div>
+          <div class="bar" style="width:70%;opacity:.8"></div>
+          <div class="btn">Start free assessment</div>
+        </div>
+        <!-- Questionnaire -->
+        <div class="mini-page question">
+          <div class="mini-header">
+            <div class="mini-icon">📝</div>
+            <div class="mini-title">Questionnaire</div>
+            <span class="pill">Step 1 / 8</span>
+          </div>
+          <div class="hero-text">Cookies &amp; tracking</div>
+          <div class="hero-sub">How does your website use cookies?</div>
+          <div class="question-line"></div>
+          <div class="question-line" style="width:80%;"></div>
+          <div style="margin-top:4px;">
+            <span class="radio"></span><span class="choice-text">Yes, with banner</span><br/>
+            <span class="radio"></span><span class="choice-text">Yes, no banner</span><br/>
+            <span class="radio"></span><span class="choice-text">No / not sure</span>
+          </div>
+          <div class="btn" style="margin-top:8px;">Next question</div>
+        </div>
+        <!-- Report -->
+        <div class="mini-page report">
+          <div class="mini-header">
+            <div class="mini-icon">📊</div>
+            <div class="mini-title">Report</div>
+            <span class="pill" style="background:rgba(15,23,42,0.85);color:#e5e7eb;">Score 78%</span>
+          </div>
+          <div class="chart">
+            GDPR / PECR / DUAA
+            <div class="chart-bars">
+              <div class="chart-bar"></div>
+              <div class="chart-bar"></div>
+              <div class="chart-bar"></div>
+              <div class="chart-bar"></div>
+            </div>
+            <ul class="list">
+              <li>Good: privacy policy and SSL in place</li>
+              <li>Improve: cookie banner wording</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OPTION 2 -->
+    <section class="option-card opt2">
+      <div class="option-header">
+        <div>
+          <div class="label">Option 2</div>
+          <div class="option-title">Green Community</div>
+        </div>
+        <span class="option-tag">Friendly &amp; warm</span>
+      </div>
+      <div class="preview-row">
+        <!-- Landing -->
+        <div class="mini-page landing">
+          <div class="mini-header">
+            <div class="mini-icon">⛪</div>
+            <div class="mini-title">Landing</div>
+            <span class="pill">Welcome</span>
+          </div>
+          <div class="hero-text">Support your congregation</div>
+          <div class="hero-sub">Make sure your digital house is in order</div>
+          <div class="bar"></div>
+          <div class="bar" style="width:60%;opacity:.85"></div>
+          <div class="btn">Begin church checkup</div>
+        </div>
+        <!-- Questionnaire -->
+        <div class="mini-page question">
+          <div class="mini-header">
+            <div class="mini-icon">📋</div>
+            <div class="mini-title">Questionnaire</div>
+            <span class="pill">Section: People</span>
+          </div>
+          <div class="hero-text">Volunteer data</div>
+          <div class="hero-sub">How do you store volunteer contact details?</div>
+          <div class="question-line"></div>
+          <div class="question-line" style="width:82%;"></div>
+          <div style="margin-top:4px;">
+            <span class="radio"></span><span class="choice-text">Spreadsheet on church PC</span><br/>
+            <span class="radio"></span><span class="choice-text">Cloud system</span><br/>
+            <span class="radio"></span><span class="choice-text">Paper only</span>
+          </div>
+          <div class="btn" style="margin-top:8px;">Save &amp; continue</div>
+        </div>
+        <!-- Report -->
+        <div class="mini-page report">
+          <div class="mini-header">
+            <div class="mini-icon">🌿</div>
+            <div class="mini-title">Report</div>
+            <span class="pill" style="background:rgba(6,95,70,0.9);color:#bbf7d0;">Medium risk</span>
+          </div>
+          <div class="chart">
+            Digital health summary
+            <div class="chart-bars">
+              <div class="chart-bar"></div>
+              <div class="chart-bar"></div>
+              <div class="chart-bar"></div>
+              <div class="chart-bar"></div>
+            </div>
+            <ul class="list">
+              <li>Back up records more regularly</li>
+              <li>Introduce basic staff training</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OPTION 3 -->
+    <section class="option-card opt3">
+      <div class="option-header">
+        <div>
+          <div class="label">Option 3</div>
+          <div class="option-title">Purple Analytics</div>
+        </div>
+        <span class="option-tag">Modern dashboard feel</span>
+      </div>
+      <div class="preview-row">
+        <!-- Landing -->
+        <div class="mini-page landing">
+          <div class="mini-header">
+            <div class="mini-icon">📈</div>
+            <div class="mini-title">Landing</div>
+            <span class="pill">Metrics</span>
+          </div>
+          <div class="hero-text">See your risk at a glance</div>
+          <div class="hero-sub">Visual dashboards for trustees &amp; advisors</div>
+          <div class="bar"></div>
+          <div class="bar" style="width:75%;opacity:.85"></div>
+          <div class="btn">Open dashboard</div>
+        </div>
+        <!-- Questionnaire -->
+        <div class="mini-page question">
+          <div class="mini-header">
+            <div class="mini-icon">❓</div>
+            <div class="mini-title">Questionnaire</div>
+            <span class="pill">Progress 3 / 10</span>
+          </div>
+          <div class="hero-text">Systems in use</div>
+          <div class="hero-sub">Which online systems hold personal data?</div>
+          <div class="question-line"></div>
+          <div class="question-line" style="width:88%;"></div>
+          <div style="margin-top:4px;">
+            <span class="radio"></span><span class="choice-text">Email newsletter tool</span><br/>
+            <span class="radio"></span><span class="choice-text">Online giving platform</span><br/>
+            <span class="radio"></span><span class="choice-text">Cloud file storage</span>
+          </div>
+          <div class="btn" style="margin-top:8px;">Next step</div>
+        </div>
+        <!-- Report -->
+        <div class="mini-page report">
+          <div class="mini-header">
+            <div class="mini-icon">📊</div>
+            <div class="mini-title">Report</div>
+            <span class="pill" style="background:rgba(88,28,135,0.9);color:#f5f3ff;">Detailed view</span>
+          </div>
+          <div class="chart">
+            Compliance radar
+            <div class="chart-bars">
+              <div class="chart-bar"></div>
+              <div class="chart-bar"></div>
+              <div class="chart-bar"></div>
+              <div class="chart-bar"></div>
+            </div>
+            <ul class="list">
+              <li>Export full PDF for trustees</li>
+              <li>Track improvements over time</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</body>
+</html>
