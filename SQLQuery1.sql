@@ -119,6 +119,7 @@ CREATE TABLE DeviceInstallation (
     FOREIGN KEY (StaffID) REFERENCES Staff(StaffID)
 );
 
+
 -- Controller Table
 CREATE TABLE Controller (
     ControllerID INT PRIMARY KEY,
@@ -155,5 +156,13 @@ CREATE TABLE Payment (
     InvoiceID INT,
     Method VARCHAR(50),
     DatePaid DATE,
+    FOREIGN KEY (InvoiceID) REFERENCES Invoice(InvoiceID)
+-- Recipt Table 
+CREATE TABLE Recipt
+    PaymentID INT PRIMARY KEY,
+    InvoiceID INT,
+    Method VARCHAR(50),
+    DatePaid DATE,
+    Status DatePaid,
     FOREIGN KEY (InvoiceID) REFERENCES Invoice(InvoiceID)
 );
